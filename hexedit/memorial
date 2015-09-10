@@ -1,0 +1,1 @@
+for AA in $(objdump -d --start-address=0x7fb50 --stop-address=0x807e0 /opt/intel/opencl-sdk/lib64/libintelocl.so | awk '{print $NF}' | sed -e "s/<\(.\+\)>/\1/" | grep "^_" | sed -e "s/@plt//"); do c++filt $AA; done
