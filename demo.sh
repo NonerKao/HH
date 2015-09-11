@@ -1,15 +1,20 @@
 #!/bin/bash
 
+ROOTDIR=/home/scope
+CLINC=-I/opt/intel/opencl-sdk/include/
+CLLIB="-L/opt/intel/opencl-sdk/lib64/ -lOpenCL"
+CLPRELOAD="LD_PRELOAD=/opt/intel/opencl-sdk/lib64/libOpenCL.so"
+
 if [ $1"y" == "1y" ]; then
-	cd good_matvec
-	gcc matvec.c -I/opt/intel/opencl-sdk/include/ -L/opt/intel/opencl-sdk/lib64/ -lOpenCL 2> /dev/null
-	LD_PRELOAD=/opt/intel/opencl-sdk/lib64/libOpenCL.so ./a.out
+	cd $ROOTDIR/good_matvec
+	gcc matvec.c $CLINC $CLLIB 2> /dev/null
+	$CLPRELOAD ./a.out
 elif [ $1"y" == "2y" ]; then
-	cd good_matvec
+	cd $ROOTDIR/good_matvec
 	../socket/client 192.168.0.102 $2
 elif [ $1"y" == "3y" ]; then
-	cd bad_matvec
+	cd $ROOTDIR/bad_matvec
 	../socket/client 192.168.0.102 $2
 elif [ $1"y" == "4y" ]; then
-	diff good_matvec/matvec.c bad_matvec/matvec.c
+	diff $ROOTFIR/good_matvec/matvec.c $ROOTDIR/bad_matvec/matvec.c
 fi
